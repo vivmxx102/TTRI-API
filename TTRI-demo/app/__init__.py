@@ -1,9 +1,11 @@
 #.-*-coding: UTF-8 -*-
 
-import app as app
+import app.model as model
 import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import heartpy as hp
+import librosa
 
 app = Flask(__name__)
 CORS(app)
@@ -74,6 +76,8 @@ def postInput_cry():
         return jsonify({'return': 'Audio_predict：Baby_Pain'})
     elif predict[0][0] == 1:
         return jsonify({'return': 'Audio_predict：Baby_Uncomfortable'})
+    elif predict[0][0] == 2:
+        return jsonify({'return': 'Audio_predict：Baby_Hungry'})
     else:
         return jsonify({'return': 'Audio_predict：Audio_Environment'})
   
