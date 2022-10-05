@@ -1,11 +1,9 @@
 #.-*-coding: UTF-8 -*-
 
-import app.model as model
+import app as app
 import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import heartpy as hp
-import librosa
 
 app = Flask(__name__)
 CORS(app)
@@ -48,8 +46,8 @@ def postInput():
     input = np.array([[bpm,ibi,sdnn,sdsd,rmssd,pnn20,hr_mad,sd1,s,sd1sd2,breathingrate]])
     print(input)
 
-    Vlance_result = model.Vlance_predict(input)
-    Arousal_result = model.Arousal_predict(input)
+    Vlance_result = app.Vlance_predict(input)
+    Arousal_result = app.Arousal_predict(input)
     if Vlance_result > 0.0 :
         Vlance = "HV"
     else:
@@ -70,14 +68,12 @@ def postInput_cry():
     input = np.array(data)
     Trimed = (Trim(Pad(input,5,Sr),Sr)) 
     MFCC = Save_MFCC(Trimed,Sr)
-    Audio_predict = model.Cry_predict(MFCC)
+    Audio_predict = app.Cry_predict(MFCC)
     predict = np.where(Audio_predict[0]==max(Audio_predict[0]))
     if predict[0][0] == 0:
         return jsonify({'return': 'Audio_predict：Baby_Pain'})
     elif predict[0][0] == 1:
         return jsonify({'return': 'Audio_predict：Baby_Uncomfortable'})
-    elif predict[0][0] == 2:
-        return jsonify({'return': 'Audio_predict：Baby_Hungry'})
     else:
         return jsonify({'return': 'Audio_predict：Audio_Environment'})
   

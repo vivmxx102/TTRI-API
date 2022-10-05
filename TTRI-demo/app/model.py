@@ -9,7 +9,7 @@ with gzip.open('app/model/emotion_test.pgz', 'r') as f:
 with gzip.open('app/model/emotion_Arousal.pgz', 'r') as f:
     emotion_Arousal = pickle.load(f)
 
-Cry_model = load_model('app/model/Cry_predict.h5')
+Cry_model = load_model('app/model/cry_demo.h5')
 
 # 將模型預測寫成一個 function 
 def Vlance_predict(input):
